@@ -1,4 +1,4 @@
-package io.github.llh4github.smmtemplate
+package io.github.llh4github.simpleauth
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
