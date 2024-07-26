@@ -9,7 +9,7 @@ junit5 = "5.10.0"
 slf4j = "2.0.9"
 logback = "1.4.14"
 easyexcel = "3.3.3"
-jjwt = "0.12.3"
+jjwt = "0.12.6"
 knife4j = "4.4.0"
 swagger3 = "2.2.19"
 ksp = "2.0.0-1.0.21"
@@ -34,6 +34,7 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 logback-core = { module = "ch.qos.logback:logback-core", version.ref = "logback" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
+springboot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "springBoot" }
 springBoot-gradle = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot" }
 graalvm-native = { module = "org.graalvm.buildtools:native-gradle-plugin", version.ref = "graalvm-plugin" }
 
@@ -51,3 +52,4 @@ jimmer-starter = { module = "org.babyfish.jimmer:jimmer-spring-boot-starter", ve
 jimmer-ksp = { module = "org.babyfish.jimmer:jimmer-ksp", version.ref = "jimmer" }
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
