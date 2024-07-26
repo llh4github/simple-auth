@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     id("kotlin-conventions")
+    id("auth-maven-publish")
     alias(libs.plugins.ksp)
 }
 dependencies {
