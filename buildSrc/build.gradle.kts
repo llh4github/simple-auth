@@ -1,5 +1,6 @@
 plugins {
     `kotlin-dsl`
+    id("maven-publish")
 }
 
 repositories {
@@ -8,6 +9,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.vanniktech:gradle-maven-publish-plugin:0.29.0")
     implementation(libs.kotlin.gradle)
     implementation(libs.springBoot.gradle)
     implementation(libs.kotlin.allopen)

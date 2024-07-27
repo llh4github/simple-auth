@@ -4,5 +4,4 @@ plugins {
 }
 
 rootProject.name = "simple-auth"
-include("mod-commons")
-include("mod-web")
+include("springboot3-starter")

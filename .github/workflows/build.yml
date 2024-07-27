@@ -34,9 +34,22 @@ jobs:
         uses: gradle/gradle-build-action@v3.0.0-beta.3
         with:
           arguments: build
-      - uses: actions/upload-artifact@v4
-        with:
-          name: artifact
-          path: |
-            api/build/libs/
-            !api/build/libs/*-plain.jar
+
+      - name: Publish Artifacts
+        run: |
+          if [[ $(cat "project.version") =~ "SNAPSHOT" ]] ; then
+            ./gradlew publishDistPublicationToSnapshotRepository 
+          else
+            if [[ $GITHUB_EVENT_NAME == "release" ]] ; then
+              ./gradlew publishDistPublicationToCentralRepository
+            else
+              echo "Skip release publication because this is not a release event"
+            fi
+          fi
+        env:
+          OSSRH_USERNAME: ${{secrets.OSSRH_USERNAME}}
+          OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
+          GPG_KEY_ID: ${{secrets.GPG_KEY_ID}}
+          GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
+          GPG_SECRET_KEY: ${{secrets.GPG_SECRET_KEY}}
+
