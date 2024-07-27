@@ -13,26 +13,29 @@ import kotlin.time.toJavaDuration
 
 @Configuration
 @ConfigurationProperties(prefix = "simple-auth")
-open class SimpleAuthProperty(
+open class SimpleAuthProperty {
     /**
      * 签发人。通常是访问域名。
      */
-    var issuer: String = "simple-auth",
-    var tokenExpireTime: TokenExpireTime = TokenExpireTime(),
-    var idGenerator: IdGeneratorProperty = IdGeneratorProperty(),
+    var issuer: String = "simple-auth"
+    var tokenExpireTime: TokenExpireTime = TokenExpireTime()
+    var idGenerator: IdGeneratorProperty = IdGeneratorProperty()
+
+    var tokenHeaderName = "Authorization"
+    var tokenHeaderPrefix = "Bearer "
     /**
      * 令牌秘钥
      *
      * 用base64，至少需要43个字符，不含特殊符号。
      */
-    var secret: String = "VyHZ8YGV9w94dRw8ixVzJgcoDXqvRGrFOHzCxiMIgbgmM",
+    var secret: String = "VyHZ8YGV9w94dRw8ixVzJgcoDXqvRGrFOHzCxiMIgbgmM"
 
-    var cacheKeyPrefix: String = "simple-auth",
+    var cacheKeyPrefix: String = "simple-auth"
+
     /**
      * 允许匿名访问的url列表
      */
-    var annoUrl: List<String> = emptyList(),
-) {
+    var annoUrl: List<String> = emptyList()
 
     /**
      * 生成密钥

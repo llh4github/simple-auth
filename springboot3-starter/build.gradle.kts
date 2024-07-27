@@ -15,9 +15,13 @@ dependencies {
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
+    compileOnly("jakarta.servlet:jakarta.servlet-api")
+    compileOnly("org.springframework:spring-webmvc")
     compileOnly("org.springframework:spring-web")
     compileOnly("org.springframework.boot:spring-boot-starter-data-redis")
+    compileOnly("org.springframework.boot:spring-boot-starter-data-jdbc")
     compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    compileOnly("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     compileOnly("org.jetbrains.kotlin:kotlin-reflect")
 
     implementation(libs.kotlin.allopen)
