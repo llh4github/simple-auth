@@ -17,5 +17,11 @@ interface AuthenticateService {
 
     fun logout(param: LogoutParam): Boolean
 
+    /**
+     * 刷新jwt
+     *
+     * 禁用原有jwt，生成新的jwt
+     * @throws org.springframework.security.authentication.BadCredentialsException 用户名或密码错误
+     */
     fun refreshToken(param: RefreshTokenParam): LoginResultToken
 }

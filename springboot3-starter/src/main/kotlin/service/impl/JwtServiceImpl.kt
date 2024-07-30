@@ -83,6 +83,7 @@ class JwtServiceImpl(
         val builder = Jwts.builder()
             .id(tokenId)
             .claims(map)
+            .issuer(property.issuer)
             .signWith(property.secretKey)
             .expiration(expire)
 

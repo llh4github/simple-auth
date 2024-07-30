@@ -19,7 +19,6 @@ open class SimpleAuthProperty {
      */
     var issuer: String = "simple-auth"
     var tokenExpireTime: TokenExpireTime = TokenExpireTime()
-    var idGenerator: IdGeneratorProperty = IdGeneratorProperty()
 
     var tokenHeaderName = "Authorization"
     var tokenHeaderPrefix = "Bearer "
