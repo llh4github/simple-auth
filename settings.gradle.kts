@@ -5,3 +5,5 @@ plugins {
 
 rootProject.name = "simple-auth"
 include("springboot3-starter")
+
+include("examples:auth-starter-demo")

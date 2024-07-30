@@ -10,6 +10,12 @@ interface JwtService {
     fun isValid(token: String): Boolean
 
     /**
+     * 验证jwt并构建token。
+     *
+     * @return jwt验证成功并构建token，否则返回null。
+     */
+    fun validateJwtAndRebuildToken(jwt: String)
+    /**
      * 移除token。
      *
      * 移除的token将不会通过验证。

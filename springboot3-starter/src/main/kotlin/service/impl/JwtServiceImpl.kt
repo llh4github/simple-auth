@@ -8,6 +8,8 @@ import io.github.llh4github.simpleauth.service.JwtService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.jsonwebtoken.Jwts
 import org.springframework.data.redis.core.StringRedisTemplate
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.DigestUtils
 import java.util.*
@@ -26,16 +28,32 @@ class JwtServiceImpl(
 
     private val keyPrefix = property.cacheKeyPrefix
 
+    override fun validateJwtAndRebuildToken(jwt: String) {
+        SecurityContextHolder.clearContext()
+        if (!isCached(jwt)) {
+            logger.debug { "jwt没有在缓存中，视为非法jwt处理。 $jwt" }
+            return
+        }
+        try {
+            val payload = parser.parse(jwt).payload as Map<*, *>
+            val username = payload["username"] as String
+            val token = UsernamePasswordAuthenticationToken(username, null, emptyList())
+            SecurityContextHolder.getContext().authentication = token
+        } catch (e: Exception) {
+            logger.warn(e) { "jwt验证出错: $jwt" }
+        }
+    }
+
     //#region token缓存操作
 
-    fun cacheToken(token: String, expire: Date) {
+    private fun cacheToken(token: String, expire: Date) {
         val hash = DigestUtils.md5Digest(token.toByteArray())
         val key = keyPrefix + "jwt:$hash"
         redisTemplate.opsForValue().set(key, token)
         redisTemplate.expireAt(key, expire)
     }
 
-    fun isCached(token: String): Boolean {
+    private fun isCached(token: String): Boolean {
         val hash = DigestUtils.md5Digest(token.toByteArray())
         val key = keyPrefix + "jwt:$hash"
         return redisTemplate.hasKey(key)
@@ -65,6 +83,7 @@ class JwtServiceImpl(
         val builder = Jwts.builder()
             .id(tokenId)
             .claims(map)
+            .issuer(property.issuer)
             .signWith(property.secretKey)
             .expiration(expire)
 
@@ -78,10 +97,10 @@ class JwtServiceImpl(
 
     override fun isValid(token: String): Boolean {
         try {
-            parser.parse(token).payload
+            parser.parse(token)
             return isCached(token)
         } catch (e: Exception) {
-            logger.warn(e) { "token验证出错: $token" }
+            logger.warn(e) { "jwt验证出错: $token" }
             return false
         }
     }
