@@ -23,6 +23,8 @@ dependencies {
     compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     compileOnly("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     compileOnly("org.jetbrains.kotlin:kotlin-reflect")
+    compileOnly(libs.swagger.models)
+    compileOnly(libs.swagger.annotations)
 
     implementation(libs.kotlin.allopen)
     implementation(libs.jjwt.api)

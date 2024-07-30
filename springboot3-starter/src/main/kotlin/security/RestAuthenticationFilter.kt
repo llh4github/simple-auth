@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
+@Deprecated("使用自定义接口实现")
 class RestAuthenticationFilter : UsernamePasswordAuthenticationFilter() {
     private val mapper by lazy {
         ObjectMapper()

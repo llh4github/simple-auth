@@ -7,6 +7,7 @@ plugins {
 dependencies {
     implementation(project(":springboot3-starter"))
 
+    implementation(libs.knife4j.openapi3)
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")

@@ -35,7 +35,7 @@ open class SpringSecurityConfig(
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { it.anyRequest().authenticated() }
 
-            .addFilterAt(restFilter(), UsernamePasswordAuthenticationFilter::class.java)
+//            .addFilterAt(restFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
     }
@@ -48,7 +48,11 @@ open class SpringSecurityConfig(
 
     @Bean
     open fun webSecurityCustomizer(): WebSecurityCustomizer {
-        val urls = mutableListOf("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+        val urls = mutableListOf(
+            "/swagger-ui.html", "/swagger-ui/**",
+            "/webjars/**", "/favicon.ico",
+            "/v3/api-docs/**", "/doc.html"
+        )
         urls.addAll(property.annoUrl)
         return WebSecurityCustomizer { web: WebSecurity ->
             web.ignoring().requestMatchers(*urls.toTypedArray())

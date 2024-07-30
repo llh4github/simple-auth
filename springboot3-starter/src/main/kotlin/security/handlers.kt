@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 private val logger = KotlinLogging.logger {}
 
 internal fun jsonLoginFailureHandler(mapper: ObjectMapper): AuthenticationFailureHandler {
-    val json = JsonWrapper("用户登录失败", "LOGIN_FAILED")
+    val json = JsonWrapper<Void>(msg = "用户登录失败", code = "LOGIN_FAILED")
     return AuthenticationFailureHandler { _, response, exception ->
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         response.characterEncoding = "UTF-8"
@@ -21,7 +21,7 @@ internal fun jsonLoginFailureHandler(mapper: ObjectMapper): AuthenticationFailur
 }
 
 internal fun jsonAccessDeniedHandler(mapper: ObjectMapper): AccessDeniedHandler {
-    val json = JsonWrapper("用户无权访问", "ACCESS_DENIED")
+    val json = JsonWrapper<Void>(msg = "用户无权访问", code = "ACCESS_DENIED")
     return AccessDeniedHandler { _, response, _ ->
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         response.characterEncoding = "UTF-8"
@@ -31,7 +31,7 @@ internal fun jsonAccessDeniedHandler(mapper: ObjectMapper): AccessDeniedHandler 
 }
 
 internal fun jsonAuthenticationEntryPoint(mapper: ObjectMapper): AuthenticationEntryPoint {
-    val json = JsonWrapper("用户无权访问", "ACCESS_DENIED")
+    val json = JsonWrapper<Void>(msg = "用户无权访问", code = "ACCESS_DENIED")
     return AuthenticationEntryPoint { _, response, _ ->
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         response.characterEncoding = "UTF-8"
