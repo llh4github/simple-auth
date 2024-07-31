@@ -7,5 +7,5 @@ create table auth_user
 );
 
 insert into auth_user (id, username, password)
-values (1111111, 'admin', '$2a$10$3Q7Zz1Zz1Zz1Zz1Zz1Zz1OZz1Zz1Zz1Zz1Zz1Zz1Zz1Zz1Zz1Zz1O')
+values (1111111, 'admin', '$2a$10$xwCqYyAxkqtyY0H/UyKowe6VVCOZCTWc.XdeLNPnGKng1lR0KMUFS')
 ;

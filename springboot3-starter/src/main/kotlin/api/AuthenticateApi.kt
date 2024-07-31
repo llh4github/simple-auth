@@ -3,6 +3,8 @@ package io.github.llh4github.simpleauth.api
 import io.github.llh4github.simpleauth.model.*
 import io.github.llh4github.simpleauth.service.AuthenticateService
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.enums.ParameterIn
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,6 +27,7 @@ class AuthenticateApi(
 
     @Operation(summary = "登出接口", description = "用户登出")
     @PostMapping("logout")
+    @Parameter(name = "Authorization", description = "Bearer token", required = true, `in` = ParameterIn.HEADER)
     fun logout(@RequestBody param: LogoutParam): JsonWrapper<Boolean> {
         val logout = authenticateService.logout(param)
         return JsonWrapper.ok(logout)
@@ -32,6 +35,7 @@ class AuthenticateApi(
 
     @Operation(summary = "刷新jwt", description = "禁用原有jwt，生成新的jwt")
     @PostMapping("token/refresh")
+    @Parameter(name = "Authorization", description = "Bearer token", required = true, `in` = ParameterIn.HEADER)
     fun refreshToken(@RequestBody param: RefreshTokenParam): JsonWrapper<LoginResultToken> {
         val token = authenticateService.refreshToken(param)
         return JsonWrapper.ok(token)

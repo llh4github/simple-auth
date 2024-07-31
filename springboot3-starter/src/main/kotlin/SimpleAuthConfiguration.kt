@@ -23,7 +23,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableConfigurationProperties(value = [SimpleAuthProperty::class, IdGeneratorProperty::class])
 @Import(value = [SpringSecurityConfig::class])
 open class SimpleAuthConfiguration(
