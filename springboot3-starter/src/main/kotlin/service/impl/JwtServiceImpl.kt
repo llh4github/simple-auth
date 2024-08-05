@@ -31,7 +31,7 @@ class JwtServiceImpl(
     override fun validateJwtAndRebuildToken(jwt: String) {
         SecurityContextHolder.clearContext()
         if (!isCached(jwt)) {
-            logger.debug { "jwt没有在缓存中，视为非法jwt处理。 $jwt" }
+            logger.warn { "jwt没有在缓存中，视为非法jwt处理。 $jwt" }
             return
         }
         try {
@@ -47,21 +47,21 @@ class JwtServiceImpl(
     //#region token缓存操作
 
     private fun cacheToken(token: String, expire: Date) {
-        val hash = DigestUtils.md5Digest(token.toByteArray())
-        val key = keyPrefix + "jwt:$hash"
+        val hash = DigestUtils.md5DigestAsHex(token.toByteArray())
+        val key = "$keyPrefix:jwt:${hash}"
         redisTemplate.opsForValue().set(key, token)
         redisTemplate.expireAt(key, expire)
     }
 
     private fun isCached(token: String): Boolean {
-        val hash = DigestUtils.md5Digest(token.toByteArray())
-        val key = keyPrefix + "jwt:$hash"
+        val hash = DigestUtils.md5DigestAsHex(token.toByteArray())
+        val key = "$keyPrefix:jwt:${hash}"
         return redisTemplate.hasKey(key)
     }
 
     override fun removeToken(token: String): Boolean {
-        val hash = DigestUtils.md5Digest(token.toByteArray())
-        val key = keyPrefix + "jwt:$hash"
+        val hash = DigestUtils.md5DigestAsHex(token.toByteArray())
+        val key = "$keyPrefix:jwt:${hash}"
         return redisTemplate.delete(key)
     }
     //#endregion

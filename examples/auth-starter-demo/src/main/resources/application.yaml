@@ -20,3 +20,11 @@ spring:
     init:
       mode: always
       data-locations: classpath:/data.sql
+
+logging:
+  level:
+    io.github.llh4github.simpleauth: debug
+
+simple-auth:
+  anno-url:
+    - /authenticate/login
