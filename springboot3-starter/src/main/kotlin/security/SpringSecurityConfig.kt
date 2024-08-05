@@ -2,6 +2,7 @@ package io.github.llh4github.simpleauth.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.llh4github.simpleauth.property.SimpleAuthProperty
+import io.github.llh4github.simpleauth.service.AuthorizeService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,6 +18,7 @@ open class SpringSecurityConfig(
     private val property: SimpleAuthProperty,
     private val jwtFilter: JwtFilter,
     private val objectMapper: ObjectMapper,
+    private val authorizeService: AuthorizeService,
 ) {
     private val logger = KotlinLogging.logger {}
 
@@ -33,9 +35,8 @@ open class SpringSecurityConfig(
             }
 
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .authorizeHttpRequests { it.anyRequest().authenticated() }
+            .authorizeHttpRequests { it.anyRequest().access(DynamicUrlAccessHandler(authorizeService)) }
 
-//            .addFilterAt(restFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
     }

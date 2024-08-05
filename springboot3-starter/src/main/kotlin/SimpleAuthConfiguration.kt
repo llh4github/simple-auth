@@ -3,13 +3,16 @@ package io.github.llh4github.simpleauth
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.llh4github.simpleauth.api.AuthenticateApi
 import io.github.llh4github.simpleauth.beans.IdGenerator
+import io.github.llh4github.simpleauth.dal.repository.DefaultUrlResourceRepository
 import io.github.llh4github.simpleauth.dal.repository.DefaultUserRepository
 import io.github.llh4github.simpleauth.property.IdGeneratorProperty
 import io.github.llh4github.simpleauth.property.SimpleAuthProperty
 import io.github.llh4github.simpleauth.security.JwtFilter
 import io.github.llh4github.simpleauth.security.SpringSecurityConfig
 import io.github.llh4github.simpleauth.service.AuthenticateService
+import io.github.llh4github.simpleauth.service.AuthorizeService
 import io.github.llh4github.simpleauth.service.JwtService
+import io.github.llh4github.simpleauth.service.impl.AuthenticateServiceImpl
 import io.github.llh4github.simpleauth.service.impl.AuthorizeServiceImpl
 import io.github.llh4github.simpleauth.service.impl.JwtServiceImpl
 import io.github.llh4github.simpleauth.service.impl.UserDetailsServiceImpl
@@ -47,11 +50,17 @@ open class SimpleAuthConfiguration(
     fun defaultUserRepository() = DefaultUserRepository(jdbcTemplate)
 
     @Bean
-    fun authorizeService(
+    fun authenticateService(
         jwtService: JwtService,
         passwordEncoder: PasswordEncoder,
         repository: DefaultUserRepository,
-    ): AuthenticateService = AuthorizeServiceImpl(jwtService, repository, passwordEncoder)
+    ): AuthenticateService = AuthenticateServiceImpl(jwtService, repository, passwordEncoder)
+
+    @Bean
+    fun authorizeService(): AuthorizeService = AuthorizeServiceImpl()
+
+    @Bean
+    fun defaultUrlResourceRepository() = DefaultUrlResourceRepository(jdbcTemplate)
 
     @Bean
     fun authorizeApi(authenticateService: AuthenticateService) = AuthenticateApi(authenticateService)
@@ -68,5 +77,8 @@ open class SimpleAuthConfiguration(
         property: SimpleAuthProperty,
         jwtFilter: JwtFilter,
         objectMapper: ObjectMapper,
-    ) = SpringSecurityConfig(property, jwtFilter, objectMapper)
+        authorizeService: AuthorizeService,
+    ) = SpringSecurityConfig(
+        property, jwtFilter, objectMapper, authorizeService
+    )
 }
