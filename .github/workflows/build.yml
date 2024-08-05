@@ -41,3 +41,5 @@ jobs:
           USERNAME_GITHUB: ${{secrets.USERNAME_GITHUB}}
           PAT_GITHUB: ${{secrets.PAT_GITHUB}}
 
+      - name: print env
+        run: echo "GITHUB_ACTOR:$GITHUB_ACTOR  PAT_GITHUB:$PAT_GITHUB USERNAME_GITHUB:$USERNAME_GITHUB"
