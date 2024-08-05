@@ -17,8 +17,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/llh4github/simple-auth")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME_GITHUB")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("PAT_GITHUB")
+                username = project.findProperty("USERNAME_GITHUB") as String? ?: System.getenv("USERNAME_GITHUB")
+                password = project.findProperty("PAT_GITHUB") as String? ?: System.getenv("PAT_GITHUB")
             }
         }
 

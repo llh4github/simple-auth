@@ -36,20 +36,8 @@ jobs:
           arguments: build
 
       - name: Publish Artifacts
-        run: |
-          if [[ $(cat "project.version") =~ "SNAPSHOT" ]] ; then
-            ./gradlew publishDistPublicationToSnapshotRepository 
-          else
-            if [[ $GITHUB_EVENT_NAME == "release" ]] ; then
-              ./gradlew publishDistPublicationToCentralRepository
-            else
-              echo "Skip release publication because this is not a release event"
-            fi
-          fi
+        run: ./gradlew publish
         env:
-          OSSRH_USERNAME: ${{secrets.OSSRH_USERNAME}}
-          OSSRH_PASSWORD: ${{secrets.OSSRH_PASSWORD}}
-          GPG_KEY_ID: ${{secrets.GPG_KEY_ID}}
-          GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
-          GPG_SECRET_KEY: ${{secrets.GPG_SECRET_KEY}}
+          USERNAME_GITHUB: ${{secrets.USERNAME_GITHUB}}
+          PAT_GITHUB: ${{secrets.PAT_GITHUB}}
 
