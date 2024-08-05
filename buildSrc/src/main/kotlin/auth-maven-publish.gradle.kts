@@ -11,19 +11,26 @@ val jarSources by tasks.registering(Jar::class) {
 val jarJavadoc by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
+
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/llh4github/simple-auth")
+            name = "central"
+            url = uri("https://s01.oss.sonatype.org/content/repositories/releases/")
             credentials {
-                username = project.findProperty("USERNAME_GITHUB") as String? ?: System.getenv("USERNAME_GITHUB")
-                password = project.findProperty("PAT_GITHUB") as String? ?: System.getenv("PAT_GITHUB")
-//                username = System.getenv("GITHUB_ACTOR")
-//                password = System.getenv("GITHUB_TOKEN")
+                username = project.findProperty("OSSRH_USERNAME") as String? ?: System.getenv("OSSRH_USERNAME")
+                password = project.findProperty("OSSRH_PASSWORD") as String? ?: System.getenv("OSSRH_PASSWORD")
             }
         }
 
+        maven {
+            name = "snapshot"
+            url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
+            credentials {
+                username = project.findProperty("OSSRH_USERNAME") as String? ?: System.getenv("OSSRH_USERNAME")
+                password = project.findProperty("OSSRH_PASSWORD") as String? ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
     }
     publications {
 
